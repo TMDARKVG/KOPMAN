@@ -1,0 +1,391 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="KoperasiModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="tblDetail_transaksi">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_transaksi" Type="int" Nullable="false" />
+          <Property Name="id_produck" Type="int" />
+          <Property Name="nama_barang" Type="varchar" MaxLength="255" />
+          <Property Name="kuantitas" Type="int" />
+          <Property Name="subtotal" Type="float" />
+        </EntityType>
+        <EntityType Name="tblLog">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_user" Type="int" Nullable="false" />
+          <Property Name="aktivitas" Type="varchar" MaxLength="10" />
+          <Property Name="date_log" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tblProduk">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="kode_barang" Type="varchar" MaxLength="25" />
+          <Property Name="nama_barang" Type="varchar" MaxLength="100" />
+          <Property Name="stok" Type="int" />
+          <Property Name="harga_satuan" Type="float" />
+          <Property Name="kategori" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tblTransaksi">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_user" Type="int" Nullable="false" />
+          <Property Name="id_produk" Type="int" Nullable="false" />
+          <Property Name="kuantitas" Type="int" />
+          <Property Name="harga_total" Type="float" />
+          <Property Name="tanggal_transaksi" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tblUser">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="100" />
+          <Property Name="password" Type="varchar" MaxLength="50" />
+          <Property Name="fullname" Type="varchar" MaxLength="50" />
+          <Property Name="date_of_birth" Type="datetime" />
+          <Property Name="number_phone" Type="varchar" MaxLength="100" />
+          <Property Name="role" Type="bit" />
+        </EntityType>
+        <Association Name="FK_tblDetail_transaksi_tblProduk">
+          <End Role="tblProduk" Type="Self.tblProduk" Multiplicity="0..1" />
+          <End Role="tblDetail_transaksi" Type="Self.tblDetail_transaksi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblProduk">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tblDetail_transaksi">
+              <PropertyRef Name="id_produck" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblDetail_transaksi_tblTransaksi">
+          <End Role="tblTransaksi" Type="Self.tblTransaksi" Multiplicity="1" />
+          <End Role="tblDetail_transaksi" Type="Self.tblDetail_transaksi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblTransaksi">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tblDetail_transaksi">
+              <PropertyRef Name="id_transaksi" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblLog_tblUser">
+          <End Role="tblUser" Type="Self.tblUser" Multiplicity="1" />
+          <End Role="tblLog" Type="Self.tblLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUser">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tblLog">
+              <PropertyRef Name="id_user" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblTransaksi_tblUser">
+          <End Role="tblUser" Type="Self.tblUser" Multiplicity="1" />
+          <End Role="tblTransaksi" Type="Self.tblTransaksi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUser">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tblTransaksi">
+              <PropertyRef Name="id_user" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="KoperasiModelStoreContainer">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblDetail_transaksi" EntityType="Self.tblDetail_transaksi" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblLog" EntityType="Self.tblLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblProduk" EntityType="Self.tblProduk" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblTransaksi" EntityType="Self.tblTransaksi" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblUser" EntityType="Self.tblUser" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_tblDetail_transaksi_tblProduk" Association="Self.FK_tblDetail_transaksi_tblProduk">
+            <End Role="tblProduk" EntitySet="tblProduk" />
+            <End Role="tblDetail_transaksi" EntitySet="tblDetail_transaksi" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblDetail_transaksi_tblTransaksi" Association="Self.FK_tblDetail_transaksi_tblTransaksi">
+            <End Role="tblTransaksi" EntitySet="tblTransaksi" />
+            <End Role="tblDetail_transaksi" EntitySet="tblDetail_transaksi" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblLog_tblUser" Association="Self.FK_tblLog_tblUser">
+            <End Role="tblUser" EntitySet="tblUser" />
+            <End Role="tblLog" EntitySet="tblLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblTransaksi_tblUser" Association="Self.FK_tblTransaksi_tblUser">
+            <End Role="tblUser" EntitySet="tblUser" />
+            <End Role="tblTransaksi" EntitySet="tblTransaksi" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="KoperasiModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="KoperasiEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="KoperasiModel.sysdiagram" />
+          <EntitySet Name="tblDetail_transaksi" EntityType="KoperasiModel.tblDetail_transaksi" />
+          <EntitySet Name="tblLogs" EntityType="KoperasiModel.tblLog" />
+          <EntitySet Name="tblProduks" EntityType="KoperasiModel.tblProduk" />
+          <EntitySet Name="tblTransaksis" EntityType="KoperasiModel.tblTransaksi" />
+          <EntitySet Name="tblUsers" EntityType="KoperasiModel.tblUser" />
+          <AssociationSet Name="FK_tblDetail_transaksi_tblTransaksi" Association="KoperasiModel.FK_tblDetail_transaksi_tblTransaksi">
+            <End Role="tblTransaksi" EntitySet="tblTransaksis" />
+            <End Role="tblDetail_transaksi" EntitySet="tblDetail_transaksi" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblLog_tblUser" Association="KoperasiModel.FK_tblLog_tblUser">
+            <End Role="tblUser" EntitySet="tblUsers" />
+            <End Role="tblLog" EntitySet="tblLogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblTransaksi_tblUser" Association="KoperasiModel.FK_tblTransaksi_tblUser">
+            <End Role="tblUser" EntitySet="tblUsers" />
+            <End Role="tblTransaksi" EntitySet="tblTransaksis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblDetail_transaksi_tblProduk" Association="KoperasiModel.FK_tblDetail_transaksi_tblProduk">
+            <End Role="tblProduk" EntitySet="tblProduks" />
+            <End Role="tblDetail_transaksi" EntitySet="tblDetail_transaksi" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="tblDetail_transaksi">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_transaksi" Type="Int32" Nullable="false" />
+          <Property Name="id_produck" Type="Int32" />
+          <Property Name="nama_barang" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="kuantitas" Type="Int32" />
+          <Property Name="subtotal" Type="Double" />
+          <NavigationProperty Name="tblTransaksi" Relationship="KoperasiModel.FK_tblDetail_transaksi_tblTransaksi" FromRole="tblDetail_transaksi" ToRole="tblTransaksi" />
+          <NavigationProperty Name="tblProduk" Relationship="KoperasiModel.FK_tblDetail_transaksi_tblProduk" FromRole="tblDetail_transaksi" ToRole="tblProduk" />
+        </EntityType>
+        <EntityType Name="tblLog">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_user" Type="Int32" Nullable="false" />
+          <Property Name="aktivitas" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="date_log" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="tblUser" Relationship="KoperasiModel.FK_tblLog_tblUser" FromRole="tblLog" ToRole="tblUser" />
+        </EntityType>
+        <EntityType Name="tblProduk">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="kode_barang" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="nama_barang" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="stok" Type="Int32" />
+          <Property Name="harga_satuan" Type="Double" />
+          <Property Name="kategori" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tblDetail_transaksi" Relationship="KoperasiModel.FK_tblDetail_transaksi_tblProduk" FromRole="tblProduk" ToRole="tblDetail_transaksi" />
+        </EntityType>
+        <EntityType Name="tblTransaksi">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_user" Type="Int32" Nullable="false" />
+          <Property Name="id_produk" Type="Int32" Nullable="false" />
+          <Property Name="kuantitas" Type="Int32" />
+          <Property Name="harga_total" Type="Double" />
+          <Property Name="tanggal_transaksi" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="tblDetail_transaksi" Relationship="KoperasiModel.FK_tblDetail_transaksi_tblTransaksi" FromRole="tblTransaksi" ToRole="tblDetail_transaksi" />
+          <NavigationProperty Name="tblUser" Relationship="KoperasiModel.FK_tblTransaksi_tblUser" FromRole="tblTransaksi" ToRole="tblUser" />
+        </EntityType>
+        <EntityType Name="tblUser">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="fullname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="date_of_birth" Type="DateTime" Precision="3" />
+          <Property Name="number_phone" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="role" Type="Boolean" />
+          <NavigationProperty Name="tblLogs" Relationship="KoperasiModel.FK_tblLog_tblUser" FromRole="tblUser" ToRole="tblLog" />
+          <NavigationProperty Name="tblTransaksis" Relationship="KoperasiModel.FK_tblTransaksi_tblUser" FromRole="tblUser" ToRole="tblTransaksi" />
+        </EntityType>
+        <Association Name="FK_tblDetail_transaksi_tblTransaksi">
+          <End Type="KoperasiModel.tblTransaksi" Role="tblTransaksi" Multiplicity="1" />
+          <End Type="KoperasiModel.tblDetail_transaksi" Role="tblDetail_transaksi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblTransaksi">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tblDetail_transaksi">
+              <PropertyRef Name="id_transaksi" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblLog_tblUser">
+          <End Type="KoperasiModel.tblUser" Role="tblUser" Multiplicity="1" />
+          <End Type="KoperasiModel.tblLog" Role="tblLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUser">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tblLog">
+              <PropertyRef Name="id_user" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblTransaksi_tblUser">
+          <End Type="KoperasiModel.tblUser" Role="tblUser" Multiplicity="1" />
+          <End Type="KoperasiModel.tblTransaksi" Role="tblTransaksi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUser">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tblTransaksi">
+              <PropertyRef Name="id_user" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblDetail_transaksi_tblProduk">
+          <End Type="KoperasiModel.tblProduk" Role="tblProduk" Multiplicity="0..1" />
+          <End Type="KoperasiModel.tblDetail_transaksi" Role="tblDetail_transaksi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblProduk">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tblDetail_transaksi">
+              <PropertyRef Name="id_produck" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="KoperasiModelStoreContainer" CdmEntityContainer="KoperasiEntities">
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="KoperasiModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblDetail_transaksi">
+            <EntityTypeMapping TypeName="KoperasiModel.tblDetail_transaksi">
+              <MappingFragment StoreEntitySet="tblDetail_transaksi">
+                <ScalarProperty Name="subtotal" ColumnName="subtotal" />
+                <ScalarProperty Name="kuantitas" ColumnName="kuantitas" />
+                <ScalarProperty Name="nama_barang" ColumnName="nama_barang" />
+                <ScalarProperty Name="id_produck" ColumnName="id_produck" />
+                <ScalarProperty Name="id_transaksi" ColumnName="id_transaksi" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblLogs">
+            <EntityTypeMapping TypeName="KoperasiModel.tblLog">
+              <MappingFragment StoreEntitySet="tblLog">
+                <ScalarProperty Name="date_log" ColumnName="date_log" />
+                <ScalarProperty Name="aktivitas" ColumnName="aktivitas" />
+                <ScalarProperty Name="id_user" ColumnName="id_user" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblProduks">
+            <EntityTypeMapping TypeName="KoperasiModel.tblProduk">
+              <MappingFragment StoreEntitySet="tblProduk">
+                <ScalarProperty Name="kategori" ColumnName="kategori" />
+                <ScalarProperty Name="harga_satuan" ColumnName="harga_satuan" />
+                <ScalarProperty Name="stok" ColumnName="stok" />
+                <ScalarProperty Name="nama_barang" ColumnName="nama_barang" />
+                <ScalarProperty Name="kode_barang" ColumnName="kode_barang" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblTransaksis">
+            <EntityTypeMapping TypeName="KoperasiModel.tblTransaksi">
+              <MappingFragment StoreEntitySet="tblTransaksi">
+                <ScalarProperty Name="tanggal_transaksi" ColumnName="tanggal_transaksi" />
+                <ScalarProperty Name="harga_total" ColumnName="harga_total" />
+                <ScalarProperty Name="kuantitas" ColumnName="kuantitas" />
+                <ScalarProperty Name="id_produk" ColumnName="id_produk" />
+                <ScalarProperty Name="id_user" ColumnName="id_user" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblUsers">
+            <EntityTypeMapping TypeName="KoperasiModel.tblUser">
+              <MappingFragment StoreEntitySet="tblUser">
+                <ScalarProperty Name="role" ColumnName="role" />
+                <ScalarProperty Name="number_phone" ColumnName="number_phone" />
+                <ScalarProperty Name="date_of_birth" ColumnName="date_of_birth" />
+                <ScalarProperty Name="fullname" ColumnName="fullname" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

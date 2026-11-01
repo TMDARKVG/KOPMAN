@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ee27c7e4c78848f789339d09700bf17e" Name="Diagram1">
+        <EntityTypeShape EntityType="KoperasiModel.sysdiagram" Width="1.5" PointX="5.75" PointY="6.75" />
+        <EntityTypeShape EntityType="KoperasiModel.tblDetail_transaksi" Width="1.5" PointX="5.25" PointY="2.625" />
+        <EntityTypeShape EntityType="KoperasiModel.tblLog" Width="1.5" PointX="3.875" PointY="6.375" />
+        <EntityTypeShape EntityType="KoperasiModel.tblProduk" Width="1.5" PointX="0.75" PointY="7.625" />
+        <EntityTypeShape EntityType="KoperasiModel.tblTransaksi" Width="1.5" PointX="3" PointY="2.5" />
+        <EntityTypeShape EntityType="KoperasiModel.tblUser" Width="1.5" PointX="0.75" PointY="2.5" />
+        <AssociationConnector Association="KoperasiModel.FK_tblDetail_transaksi_tblTransaksi" />
+        <AssociationConnector Association="KoperasiModel.FK_tblLog_tblUser" />
+        <AssociationConnector Association="KoperasiModel.FK_tblTransaksi_tblUser" />
+        <AssociationConnector Association="KoperasiModel.FK_tblDetail_transaksi_tblProduk" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

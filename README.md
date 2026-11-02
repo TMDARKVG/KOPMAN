@@ -16,25 +16,9 @@
 
 ## 📋 Table of Contents
 
-- [🚀 Installation](#installation)
-- [💻 Usage](#usage)
 - [✨ Features](#features)
 - [📄 License](#license)
 - [👤 Contact](#contact)
-
-## 🚀 Installation
-
-```bash
-git clone https://github.com/TMDARKVG/kopman.git
-cd kopman
-npm install
-```
-
-## 💻 Usage
-
-```bash
-npm start
-```
 
 ## ✨ Features
 
